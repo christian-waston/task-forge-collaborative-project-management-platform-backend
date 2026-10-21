@@ -1,0 +1,68 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-21T11:51:11.439+02:00  INFO 8556 --- [taskforge] [           main] com.taskforge.TaskforgeApplication       : Starting TaskforgeApplication v0.0.1-SNAPSHOT using Java 26.0.2.1 with PID 8556 (C:\Users\wasto\Documents\AUCA\WEBTECH\Practice\Final\Taskforge\taskforge\target\taskforge-0.0.1-SNAPSHOT.jar started by wasto in C:\Users\wasto\Documents\AUCA\WEBTECH\Practice\Final\Taskforge\taskforge)
+2026-10-21T11:51:11.449+02:00  INFO 8556 --- [taskforge] [           main] com.taskforge.TaskforgeApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-10-21T11:51:16.808+02:00  INFO 8556 --- [taskforge] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-21T11:51:17.353+02:00  INFO 8556 --- [taskforge] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 476 ms. Found 6 JPA repository interfaces.
+2026-10-21T11:51:23.551+02:00  INFO 8556 --- [taskforge] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-10-21T11:51:23.702+02:00  INFO 8556 --- [taskforge] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-21T11:51:23.703+02:00  INFO 8556 --- [taskforge] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-21T11:51:23.912+02:00  INFO 8556 --- [taskforge] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 12131 ms
+2026-10-21T11:51:26.724+02:00  INFO 8556 --- [taskforge] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-21T11:51:27.596+02:00  INFO 8556 --- [taskforge] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-21T11:51:33.880+02:00  INFO 8556 --- [taskforge] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-21T11:51:34.010+02:00  INFO 8556 --- [taskforge] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-21T11:51:34.847+02:00  INFO 8556 --- [taskforge] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7740b0ab
+2026-10-21T11:51:34.850+02:00  INFO 8556 --- [taskforge] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-21T11:51:35.243+02:00  INFO 8556 --- [taskforge] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/taskforge_midterm]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.2
+	Default catalog/schema: taskforge_midterm/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-21T11:51:41.532+02:00  INFO 8556 --- [taskforge] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table project (id uuid not null, client_name varchar(255), description varchar(255), project_code varchar(255), project_name varchar(255), primary key (id))
+Hibernate: create table skill (id uuid not null, name varchar(255), primary key (id))
+Hibernate: create table task (id uuid not null, due_date date, priority integer, status varchar(255) check ((status in ('OPEN','IN_PROGRESS','DONE','DROPPED'))), title varchar(255), project_id uuid, team_member_id uuid, primary key (id))
+Hibernate: create table team_member (id uuid not null, email varchar(255), first_name varchar(255), last_name varchar(255), workstation_id uuid, primary key (id))
+Hibernate: create table team_member_skill (team_member_id uuid not null, skill_id uuid not null)
+Hibernate: create table work_log (id uuid not null, activity varchar(255), comment varchar(255), hours_spent integer, logged_date date, task_id uuid, primary key (id))
+Hibernate: create table workstation (id uuid not null, name varchar(255), station_number integer, primary key (id))
+Hibernate: alter table if exists project drop constraint if exists UKpyadn2e3xipo328gs8ae6sh11
+2026-10-21T11:51:42.181+02:00  WARN 8556 --- [taskforge] [           main] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-10-21T11:51:42.182+02:00  WARN 8556 --- [taskforge] [           main] org.hibernate.orm.jdbc.warn              : constraint "ukpyadn2e3xipo328gs8ae6sh11" of relation "project" does not exist, skipping
+Hibernate: alter table if exists project add constraint UKpyadn2e3xipo328gs8ae6sh11 unique (project_code)
+Hibernate: alter table if exists task add constraint FKk8qrwowg31kx7hp93sru1pdqa foreign key (project_id) references project
+Hibernate: alter table if exists task add constraint FK4vdebtjdped6v3b39e9mdly7a foreign key (team_member_id) references team_member
+Hibernate: alter table if exists team_member add constraint FKctt8rdbgvf7bjdj6c8xct1gj7 foreign key (workstation_id) references workstation
+Hibernate: alter table if exists team_member_skill add constraint FK1is5enfxkv3yoj09vl2cqfv4b foreign key (skill_id) references skill
+Hibernate: alter table if exists team_member_skill add constraint FK6b9a6o3waeveigbfmd4w4tll7 foreign key (team_member_id) references team_member
+Hibernate: alter table if exists work_log add constraint FK9x8a96oqyjudur6f9q0mlyrsf foreign key (task_id) references task
+2026-10-21T11:51:42.235+02:00  INFO 8556 --- [taskforge] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-21T11:51:42.941+02:00  INFO 8556 --- [taskforge] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-21T11:51:51.572+02:00  WARN 8556 --- [taskforge] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-21T11:51:56.004+02:00  INFO 8556 --- [taskforge] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-10-21T11:51:56.082+02:00  INFO 8556 --- [taskforge] [           main] com.taskforge.TaskforgeApplication       : Started TaskforgeApplication in 49.603 seconds (process running for 55.739)
+2026-10-21T11:52:13.489+02:00  INFO 8556 --- [taskforge] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-21T11:52:13.489+02:00  INFO 8556 --- [taskforge] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-21T11:52:13.493+02:00  INFO 8556 --- [taskforge] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: select count(*) from project p1_0
+Hibernate: select count(*) from team_member tm1_0
+Hibernate: select w1_0.id,w1_0.name,w1_0.station_number from workstation w1_0 where not exists(select tm1_0.id from team_member tm1_0 where tm1_0.workstation_id=w1_0.id) order by w1_0.station_number
+Hibernate: select count(t1_0.id) from task t1_0 where t1_0.due_date=?
+Hibernate: select count(t1_0.id) from task t1_0 where t1_0.status=?
+Hibernate: select count(*) from work_log wl1_0

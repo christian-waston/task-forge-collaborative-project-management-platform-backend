@@ -24,14 +24,14 @@ showing the hours spent.
 1. Create the database in PostgreSQL:
 
    ```sql
-   CREATE DATABASE taskforge;
+   CREATE DATABASE taskforge_midterm;
    ```
 
 2. Adjust `src/main/resources/application.properties` if your PostgreSQL
    username/password is different:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/taskforge
+   spring.datasource.url=jdbc:postgresql://localhost:5432/taskforge_midterm
    spring.datasource.username=postgres
    spring.datasource.password=postgres
    spring.jpa.hibernate.ddl-auto=update
