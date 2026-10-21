@@ -8,6 +8,8 @@ import com.taskforge.repository.ProjectRepository;
 import com.taskforge.repository.TaskRepository;
 import com.taskforge.repository.TeamMemberRepository;
 import com.taskforge.repository.WorkLogRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +74,11 @@ public class TaskService {
     // B3
     public List<Task> getByDueDateBetween(LocalDate start, LocalDate end) {
         return taskRepository.findByDueDateBetweenOrderByDueDateAsc(start, end);
+    }
+
+    // Bonus: tasks page by page, the Pageable is built in the controller
+    public Page<Task> getPage(Pageable pageable) {
+        return taskRepository.findAll(pageable);
     }
 
     // F1: tasks per status, one row per status with its count

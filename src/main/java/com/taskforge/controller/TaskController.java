@@ -3,6 +3,10 @@ package com.taskforge.controller;
 import com.taskforge.entity.Task;
 import com.taskforge.entity.TaskStatus;
 import com.taskforge.service.TaskService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,6 +70,17 @@ public class TaskController {
     @GetMapping("/stats/by-status")
     public List<Object[]> getStatsByStatus() {
         return taskService.getStatsByStatus();
+    }
+
+    // Bonus: tasks page by page, the pageable is built here from the three parameters
+    @GetMapping("/page")
+    public Page<Task> getTasksPage(@RequestParam int page, @RequestParam int size, @RequestParam String sort) {
+        String[] sortParts = sort.split(",");
+        Sort sortSpec = sortParts.length > 1 && sortParts[1].equalsIgnoreCase("desc")
+                ? Sort.by(sortParts[0]).descending()
+                : Sort.by(Sort.Direction.ASC, sortParts[0]);
+        Pageable pageable = PageRequest.of(page, size, sortSpec);
+        return taskService.getPage(pageable);
     }
 
     // F2: cancel-day, one single JPQL UPDATE, no Java loop
