@@ -7,6 +7,7 @@ import com.taskforge.entity.TeamMember;
 import com.taskforge.repository.ProjectRepository;
 import com.taskforge.repository.TaskRepository;
 import com.taskforge.repository.TeamMemberRepository;
+import com.taskforge.repository.WorkLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,13 +21,16 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final TeamMemberRepository teamMemberRepository;
+    private final WorkLogRepository workLogRepository;
 
     public TaskService(TaskRepository taskRepository,
                        ProjectRepository projectRepository,
-                       TeamMemberRepository teamMemberRepository) {
+                       TeamMemberRepository teamMemberRepository,
+                       WorkLogRepository workLogRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.teamMemberRepository = teamMemberRepository;
+        this.workLogRepository = workLogRepository;
     }
 
     // D1: safe saving. The controller maps the returned message to its HTTP status.
@@ -119,5 +123,18 @@ public class TaskService {
         }
         taskRepository.deleteById(id);
         return true;
+    }
+
+    // E3: a task that has work logs can no longer be deleted
+    public String deleteTask(UUID id) {
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isEmpty()) {
+            return "The task with that id does not exist";
+        }
+        if (workLogRepository.existsByTask(task.get())) {
+            return "That task has work logs, delete them first";
+        }
+        taskRepository.delete(task.get());
+        return "Task deleted successfully";
     }
 }

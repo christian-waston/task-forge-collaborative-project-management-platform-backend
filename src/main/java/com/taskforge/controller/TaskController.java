@@ -82,10 +82,13 @@ public class TaskController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
-        if (taskService.deleteById(id)) {
-            return new ResponseEntity<>("Task deleted successfully", HttpStatus.OK);
+        String message = taskService.deleteTask(id);
+        if (message.equals("The task with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("That task has work logs, delete them first")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("The task with that id does not exist", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     // D2: status flow, only the allowed moves pass, DONE and DROPPED are final
