@@ -35,8 +35,6 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    // D1: safe saving, the service validates the rules and the controller
-    // maps the returned message to its HTTP status.
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Task task) {
         String message = taskService.save(task);
@@ -53,26 +51,21 @@ public class TaskController {
         return taskService.getAll();
     }
 
-    // B2: tasks by status, earliest dueDate first
     @GetMapping("/by-status")
     public List<Task> getByStatus(@RequestParam TaskStatus status) {
         return taskService.getByStatus(status);
     }
 
-    // B3: tasks in an inclusive date range, the Strings are parsed into
-    // LocalDate here in the controller
     @GetMapping("/between")
     public List<Task> getByDueDateBetween(@RequestParam String start, @RequestParam String end) {
         return taskService.getByDueDateBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 
-    // F1: one row per status with its count, e.g. [["OPEN",4],["DONE",3]]
     @GetMapping("/stats/by-status")
     public List<Object[]> getStatsByStatus() {
         return taskService.getStatsByStatus();
     }
 
-    // Bonus: tasks page by page, the pageable is built here from the three parameters
     @GetMapping("/page")
     public Page<Task> getTasksPage(@RequestParam int page, @RequestParam int size, @RequestParam String sort) {
         String[] sortParts = sort.split(",");
@@ -83,7 +76,6 @@ public class TaskController {
         return taskService.getPage(pageable);
     }
 
-    // F2: cancel-day, one single JPQL UPDATE, no Java loop
     @PatchMapping("/cancel-day")
     public ResponseEntity<String> cancelDay(@RequestParam UUID teamMemberId, @RequestParam String date) {
         return new ResponseEntity<>(taskService.cancelDay(teamMemberId, LocalDate.parse(date)), HttpStatus.OK);
@@ -118,7 +110,6 @@ public class TaskController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // D2: status flow, only the allowed moves pass, DONE and DROPPED are final
     @PatchMapping("/{id}/status")
     public ResponseEntity<String> updateStatus(@PathVariable UUID id, @RequestParam TaskStatus status) {
         String message = taskService.updateStatus(id, status);

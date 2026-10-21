@@ -29,8 +29,6 @@ public class TeamMemberService {
     }
 
     public TeamMember save(TeamMember teamMember) {
-        // The workstation and the skills arrive as detached references with only their id,
-        // so load the managed versions before saving the team member.
         if (teamMember.getWorkstation() != null && teamMember.getWorkstation().getId() != null) {
             Optional<Workstation> workstation =
                     workstationRepository.findById(teamMember.getWorkstation().getId());
@@ -50,12 +48,10 @@ public class TeamMemberService {
         return teamMemberRepository.findAll();
     }
 
-    // C1: team members holding a skill, matched without regard to letter case
     public List<TeamMember> getBySkillName(String name) {
         return teamMemberRepository.findBySkillName(name);
     }
 
-    // D3: add one skill to a team member, keeping the ones already there
     public String addSkill(UUID teamMemberId, UUID skillId) {
         Optional<TeamMember> teamMember = teamMemberRepository.findById(teamMemberId);
         if (teamMember.isEmpty()) {
@@ -75,7 +71,6 @@ public class TeamMemberService {
         return "Skill added to the team member";
     }
 
-    // D4: move a team member to another workstation, the old one becomes free
     public String changeWorkstation(UUID teamMemberId, int stationNumber) {
         Optional<TeamMember> teamMember = teamMemberRepository.findById(teamMemberId);
         if (teamMember.isEmpty()) {

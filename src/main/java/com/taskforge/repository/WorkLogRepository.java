@@ -13,10 +13,8 @@ import java.util.UUID;
 @Repository
 public interface WorkLogRepository extends JpaRepository<WorkLog, UUID> {
 
-    // E2: JPQL with path navigation d.task.project.projectCode, newest loggedDate first
     @Query("SELECT w FROM WorkLog w WHERE w.task.project.projectCode = :projectCode ORDER BY w.loggedDate DESC")
     List<WorkLog> findByProjectCode(@Param("projectCode") String projectCode);
 
-    // E3: DERIVED query, true while the task has at least one work log
     boolean existsByTask(Task task);
 }

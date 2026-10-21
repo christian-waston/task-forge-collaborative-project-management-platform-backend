@@ -23,7 +23,6 @@ public class WorkLogService {
         this.taskRepository = taskRepository;
     }
 
-    // E1: write a work log, only for DONE tasks, loggedDate set to today
     public String save(UUID taskId, WorkLog workLog) {
         Optional<Task> task = taskRepository.findById(taskId);
         if (task.isEmpty()) {
@@ -38,7 +37,6 @@ public class WorkLogService {
         return "Work log saved successfully";
     }
 
-    // E2: work log history of a project across all its tasks
     public List<WorkLog> getProjectHistory(String projectCode) {
         return workLogRepository.findByProjectCode(projectCode);
     }

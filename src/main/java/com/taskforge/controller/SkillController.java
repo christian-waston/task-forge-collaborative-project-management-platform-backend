@@ -38,7 +38,6 @@ public class SkillController {
         return skillService.getAll();
     }
 
-    // C3: skills that no team member holds
     @GetMapping("/unused")
     public List<Skill> getUnused() {
         return skillService.getUnusedSkills();

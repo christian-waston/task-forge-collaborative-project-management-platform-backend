@@ -29,8 +29,11 @@ public class WorkstationController {
 
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Workstation workstation) {
-        workstationService.save(workstation);
-        return new ResponseEntity<>("Workstation saved successfully", HttpStatus.CREATED);
+        String message = workstationService.save(workstation);
+        if (message.equals("A workstation with that station number already exists")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -38,7 +41,6 @@ public class WorkstationController {
         return workstationService.getAll();
     }
 
-    // C2: workstations no team member occupies, sorted by stationNumber
     @GetMapping("/free")
     public List<Workstation> getFree() {
         return workstationService.getFreeWorkstations();

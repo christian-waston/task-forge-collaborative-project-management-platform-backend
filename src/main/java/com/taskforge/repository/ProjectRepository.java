@@ -13,11 +13,8 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
 
-    // C4: JPQL DISTINCT with path navigation through the task side
     @Query("SELECT DISTINCT t.project FROM Task t WHERE t.teamMember.id = :teamMemberId")
     List<Project> findProjectsOfTeamMember(@Param("teamMemberId") UUID teamMemberId);
 
-    // B1: DERIVED query - the IgnoreCase keyword keeps it case-insensitive,
-    // and OrderBy...Asc sorts by projectName from A to Z.
     List<Project> findByClientNameIgnoreCaseOrderByProjectNameAsc(String clientName);
 }

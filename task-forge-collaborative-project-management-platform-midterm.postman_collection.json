@@ -1,290 +1,506 @@
 {
   "info": {
-    "name": "TaskForge Collaborative Project Management Platform - Midterm",
-    "description": "Abumukiza Leon Christian - 26478 - INSY 8322 Web Technology and Internet. One request per requirement, named by its ID. Set the baseUrl variable of the collection, and replace task/team member/skill/work log UUIDs with the ones returned by your save endpoints.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_postman_id": "04282f93-e5dd-4a4f-96a0-430526ae4455",
+    "name": "task-forge-collaborative-project-management-platform-midterm",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58766543"
   },
-  "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "projectId", "value": "replace-with-project-uuid" },
-    { "key": "teamMemberId", "value": "replace-with-team-member-uuid" },
-    { "key": "taskId", "value": "replace-with-task-uuid" },
-    { "key": "workLogId", "value": "replace-with-work-log-uuid" },
-    { "key": "skillId", "value": "replace-with-skill-uuid" }
-  ],
   "item": [
     {
-      "name": "Part A",
-      "item": [
-        {
-          "name": "A2",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "all"]
-            }
-          }
+      "name": "A2 - Skills Creation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "// {\"name\": \"Backend\"}\r\n// {\"name\": \"Frontend\"}\r\n// {\"name\": \"UI Design\"}\r\n{\"name\": \"Testing\"}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/skills/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "skills", "save"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Part B",
-      "item": [
-        {
-          "name": "B1",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/projects/by-client-name?clientName=mtn rwanda",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "projects", "by-client-name"],
-              "query": [{ "key": "clientName", "value": "mtn rwanda" }]
-            }
-          }
+      "name": "A2 - Workstations Creation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "// {\"stationNumber\": 1, \"name\": \"Desk 1\"}\r\n// {\"stationNumber\": 2, \"name\": \"Desk 2\"}\r\n// {\"stationNumber\": 3, \"name\": \"Desk 3\"}\r\n{\"stationNumber\": 4, \"name\": \"Desk 4\"}",
+          "options": { "raw": { "language": "json" } }
         },
-        {
-          "name": "B2",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/by-status?status=OPEN",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "by-status"],
-              "query": [{ "key": "status", "value": "OPEN" }]
-            }
-          }
-        },
-        {
-          "name": "B3",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/between?start=2026-10-01&end=2026-10-31",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "between"],
-              "query": [
-                { "key": "start", "value": "2026-10-01" },
-                { "key": "end", "value": "2026-10-31" }
-              ]
-            }
-          }
+        "url": {
+          "raw": "http://localhost:8082/api/workstations/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "workstations", "save"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Part C",
-      "item": [
-        {
-          "name": "C1",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/team-members/by-skill?name=backend",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "team-members", "by-skill"],
-              "query": [{ "key": "name", "value": "backend" }]
-            }
-          }
+      "name": "A2 - Projects Creation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "// {\"projectName\": \"Alpha\", \"clientName\": \"MTN Rwanda\", \"projectCode\": \"TF-2026-01\", \"description\": \"Core platform\"}\r\n// {\"projectName\": \"Beta\", \"clientName\": \"MTN Rwanda\", \"projectCode\": \"TF-2026-02\", \"description\": \"Mobile app\"}\r\n// {\"projectName\": \"Gamma\", \"clientName\": \"Bank of Kigali\", \"projectCode\": \"TF-2026-03\", \"description\": \"Banking API\"}\r\n// {\"projectName\": \"Delta\", \"clientName\": \"RwandaAir\", \"projectCode\": \"TF-2026-04\", \"description\": \"Booking system\"}\r\n{\"projectName\": \"Epsilon\", \"clientName\": \"MINICT\", \"projectCode\": \"TF-2026-05\", \"description\": \"Gov portal\"}",
+          "options": { "raw": { "language": "json" } }
         },
-        {
-          "name": "C2",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/workstations/free",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "workstations", "free"]
-            }
-          }
-        },
-        {
-          "name": "C3",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/skills/unused",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "skills", "unused"]
-            }
-          }
-        },
-        {
-          "name": "C4",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/projects/of-team-member/{{teamMemberId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "projects", "of-team-member", "{{teamMemberId}}"]
-            }
-          }
+        "url": {
+          "raw": "http://localhost:8082/api/projects/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "projects", "save"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Part D",
-      "item": [
-        {
-          "name": "D1",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"dueDate\": \"2026-11-20\",\n  \"title\": \"Implement the work log report\",\n  \"priority\": 2,\n  \"project\": { \"id\": \"{{projectId}}\" },\n  \"teamMember\": { \"id\": \"{{teamMemberId}}\" }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/save",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "save"]
-            }
-          }
+      "name": "A2 - Team Members Creation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "/*{\r\n  \"firstName\": \"Jean\", \"lastName\": \"Pierre\", \"email\": \"jean@taskforge.rw\",\r\n  \"workstation\": { \"id\": \"798da614-277e-4473-9b45-8e302f3f1fd9\" },\r\n  \"skills\": [ { \"id\": \"5644ad2b-387b-4c03-b77a-96c06f5714b9\" }, { \"id\": \"ab1d85e4-007d-44e3-8d45-1b002e609d83\" } ]\r\n}*/\r\n/*{\r\n  \"firstName\": \"Marie\", \"lastName\": \"Aline\", \"email\": \"marie@taskforge.rw\",\r\n  \"workstation\": { \"id\": \"23420209-6cc3-4c0f-9f53-aab20e6cc965\" },\r\n  \"skills\": [ { \"id\": \"13450854-ff5d-4725-a8a9-838d24b8d42a\" } ]\r\n}*/\r\n{\r\n  \"firstName\": \"Paul\", \"lastName\": \"Gatore\", \"email\": \"paul@taskforge.rw\",\r\n  \"workstation\": { \"id\": \"e2b1d0bf-8333-4e9a-8368-0ae2b117814c\" },\r\n  \"skills\": []\r\n}",
+          "options": { "raw": { "language": "json" } }
         },
-        {
-          "name": "D2",
-          "request": {
-            "method": "PATCH",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/status?status=IN_PROGRESS",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "{{taskId}}", "status"],
-              "query": [{ "key": "status", "value": "IN_PROGRESS" }]
-            }
-          }
-        },
-        {
-          "name": "D3",
-          "request": {
-            "method": "PUT",
-            "url": {
-              "raw": "{{baseUrl}}/api/team-members/{{teamMemberId}}/skills/{{skillId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "team-members", "{{teamMemberId}}", "skills", "{{skillId}}"]
-            }
-          }
-        },
-        {
-          "name": "D4",
-          "request": {
-            "method": "PATCH",
-            "url": {
-              "raw": "{{baseUrl}}/api/team-members/{{teamMemberId}}/workstation?stationNumber=4",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "team-members", "{{teamMemberId}}", "workstation"],
-              "query": [{ "key": "stationNumber", "value": "4" }]
-            }
-          }
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "save"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Part E",
-      "item": [
-        {
-          "name": "E1",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"activity\": \"Code review\",\n  \"comment\": \"Reviewed the login controller\",\n  \"hoursSpent\": 3\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/work-logs/save?taskId={{taskId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "work-logs", "save"],
-              "query": [{ "key": "taskId", "value": "{{taskId}}" }]
-            }
-          }
+      "name": "A2 - Tasks Creation (D1)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Seat map rendering\",\r\n  \"priority\": 2,\r\n  \"dueDate\": \"2026-11-12\",\r\n  \"project\": { \"id\": \"c57ac1fc-03c8-406e-8ae2-a3142e44994a\" },\r\n  \"teamMember\": { \"id\": \"273322d9-864e-4c0f-8865-fde01c42147f\" }\r\n}",
+          "options": { "raw": { "language": "json" } }
         },
-        {
-          "name": "E2",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/work-logs/project/TF-2026-01",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "work-logs", "project", "TF-2026-01"]
-            }
-          }
-        },
-        {
-          "name": "E3",
-          "request": {
-            "method": "DELETE",
-            "url": {
-              "raw": "{{baseUrl}}/api/work-logs/delete/{{workLogId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "work-logs", "delete", "{{workLogId}}"]
-            }
-          }
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "save"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Part F",
-      "item": [
-        {
-          "name": "F1",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/stats/by-status",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "stats", "by-status"]
-            }
-          }
-        },
-        {
-          "name": "F2",
-          "request": {
-            "method": "PATCH",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/cancel-day?teamMemberId={{teamMemberId}}&date=2026-11-05",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "cancel-day"],
-              "query": [
-                { "key": "teamMemberId", "value": "{{teamMemberId}}" },
-                { "key": "date", "value": "2026-11-05" }
-              ]
-            }
-          }
+      "name": "A2 - Delete Skill",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/skills/delete/{id}",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "skills", "delete", "{id}"]
         }
-      ]
+      },
+      "response": []
     },
     {
-      "name": "Bonus",
-      "item": [
-        {
-          "name": "+5 dashboard",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/dashboard/summary",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "dashboard", "summary"]
-            }
-          }
-        },
-        {
-          "name": "+5 tasks page",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/tasks/page?page=0&size=5&sort=dueDate,desc",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "tasks", "page"],
-              "query": [
-                { "key": "page", "value": "0" },
-                { "key": "size", "value": "5" },
-                { "key": "sort", "value": "dueDate,desc" }
-              ]
-            }
-          }
+      "name": "A2 - Delete Workstation",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/workstations/delete/{id}",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "workstations", "delete", "{id}"]
         }
-      ]
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Delete Team Member",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/delete/{id}",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "delete", "{id}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Delete Project",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/projects/delete/{id}",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "projects", "delete", "{id}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1 - Projects by Client Name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/projects/by-client-name?clientName=mtn rwanda",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "projects", "by-client-name"],
+          "query": [{ "key": "clientName", "value": "mtn rwanda" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B2 - Tasks by Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/by-status?status=OPEN",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "by-status"],
+          "query": [{ "key": "status", "value": "OPEN" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B3 - Tasks Between Dates",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/between?start=2026-10-01&end=2026-11-30",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "between"],
+          "query": [
+            { "key": "start", "value": "2026-10-01" },
+            { "key": "end", "value": "2026-11-30" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C1 - Team Members by Skill",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/by-skill?name=Backend",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "by-skill"],
+          "query": [{ "key": "name", "value": "Backend" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C2 - Free Workstations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/workstations/free",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "workstations", "free"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C3 - Unused Skills",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/skills/unused",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "skills", "unused"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4 - Projects of Team Member",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/projects/of-team-member/e51961fc-6312-44ce-86d3-d5a2deef4a8b",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "projects", "of-team-member", "e51961fc-6312-44ce-86d3-d5a2deef4a8b"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D1 - Task Save (Past Date - 400)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Old task\",\r\n  \"priority\": 1,\r\n  \"dueDate\": \"2026-09-01\",\r\n  \"project\": { \"id\": \"92e8d606-3738-4797-b431-700e38d5a034\" },\r\n  \"teamMember\": { \"id\": \"e51961fc-6312-44ce-86d3-d5a2deef4a8b\" }\r\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "save"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D1 - Task Save (Duplicate Date - 409)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Duplicate date task\",\r\n  \"priority\": 2,\r\n  \"dueDate\": \"2026-10-28\",\r\n  \"project\": { \"id\": \"92e8d606-3738-4797-b431-700e38d5a034\" },\r\n  \"teamMember\": { \"id\": \"e51961fc-6312-44ce-86d3-d5a2deef4a8b\" }\r\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/save",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "save"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2 - Status Flow (Invalid Move - 400)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/46e49131-ffb6-45d5-b895-9e06c06993a0/status?status=OPEN",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "46e49131-ffb6-45d5-b895-9e06c06993a0", "status"],
+          "query": [{ "key": "status", "value": "OPEN" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2 - Status Flow (Valid Move - 200)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/4a507ec8-e3e1-4fb9-8ed1-2268e7bf7d4a/status?status=DROPPED",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "4a507ec8-e3e1-4fb9-8ed1-2268e7bf7d4a", "status"],
+          "query": [{ "key": "status", "value": "DROPPED" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D3 - Add Skill to Team Member (Success - 200)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/273322d9-864e-4c0f-8865-fde01c42147f/skills/ab1d85e4-007d-44e3-8d45-1b002e609d83",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "273322d9-864e-4c0f-8865-fde01c42147f", "skills", "ab1d85e4-007d-44e3-8d45-1b002e609d83"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D3 - Add Skill to Team Member (Duplicate - 409)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/e51961fc-6312-44ce-86d3-d5a2deef4a8b/skills/5644ad2b-387b-4c03-b77a-96c06f5714b9",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "e51961fc-6312-44ce-86d3-d5a2deef4a8b", "skills", "5644ad2b-387b-4c03-b77a-96c06f5714b9"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D4 - Change Workstation (Success - 200)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/273322d9-864e-4c0f-8865-fde01c42147f/workstation?stationNumber=4",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "273322d9-864e-4c0f-8865-fde01c42147f", "workstation"],
+          "query": [{ "key": "stationNumber", "value": "4" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D4 - Change Workstation (Taken - 409)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/team-members/e51961fc-6312-44ce-86d3-d5a2deef4a8b/workstation?stationNumber=2",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "team-members", "e51961fc-6312-44ce-86d3-d5a2deef4a8b", "workstation"],
+          "query": [{ "key": "stationNumber", "value": "2" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E1 - WorkLog on DONE Task (Success - 201)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"activity\": \"Figma Design\", \"comment\": \"Completed homepage\", \"hoursSpent\": 4 }",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/work-logs/save?taskId=e3f943fa-5573-4106-b04b-165a9d7981fe",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "work-logs", "save"],
+          "query": [{ "key": "taskId", "value": "e3f943fa-5573-4106-b04b-165a9d7981fe" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E1 - WorkLog on Non-DONE Task (400)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"activity\": \"Test\", \"comment\": \"Test\", \"hoursSpent\": 1}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/work-logs/save?taskId=bcf8a4f7-c416-4694-9804-4743e063124a",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "work-logs", "save"],
+          "query": [{ "key": "taskId", "value": "bcf8a4f7-c416-4694-9804-4743e063124a" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E2 - WorkLog History by Project",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/work-logs/project/TF-2026-01",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "work-logs", "project", "TF-2026-01"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E3 - Delete WorkLog (Success - 200)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/work-logs/delete/7839f64b-56db-4818-a926-43b7b8618107",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "work-logs", "delete", "7839f64b-56db-4818-a926-43b7b8618107"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E3 - Delete Task with WorkLogs (409)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/delete/1e6718ad-f0f4-4a4d-bab7-217663e43fa3",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "delete", "1e6718ad-f0f4-4a4d-bab7-217663e43fa3"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F1 - Tasks Stats by Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/stats/by-status",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "stats", "by-status"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F2 - Cancel Day",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/cancel-day?teamMemberId=e51961fc-6312-44ce-86d3-d5a2deef4a8b&date=2026-10-20",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "cancel-day"],
+          "query": [
+            { "key": "teamMemberId", "value": "e51961fc-6312-44ce-86d3-d5a2deef4a8b" },
+            { "key": "date", "value": "2026-10-20" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus - Dashboard Summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/dashboard/summary",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "dashboard", "summary"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus - Tasks Page by Page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/tasks/page?page=0&size=5&sort=dueDate,desc",
+          "protocol": "http", "host": ["localhost"], "port": "8082",
+          "path": ["api", "tasks", "page"],
+          "query": [
+            { "key": "page", "value": "0" },
+            { "key": "size", "value": "5" },
+            { "key": "sort", "value": "dueDate,desc" }
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

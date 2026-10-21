@@ -40,7 +40,6 @@ public class TeamMemberController {
         return teamMemberService.getAll();
     }
 
-    // C1: team members by skill name, case does not matter, join on skills
     @GetMapping("/by-skill")
     public List<TeamMember> getBySkill(@RequestParam String name) {
         return teamMemberService.getBySkillName(name);
@@ -64,7 +63,6 @@ public class TeamMemberController {
         return new ResponseEntity<>("The team member with that id does not exist", HttpStatus.NOT_FOUND);
     }
 
-    // D3: add one skill to a team member, the controller maps each message to its status
     @PutMapping("/{teamMemberId}/skills/{skillId}")
     public ResponseEntity<String> addSkill(@PathVariable UUID teamMemberId, @PathVariable UUID skillId) {
         String message = teamMemberService.addSkill(teamMemberId, skillId);
@@ -77,7 +75,6 @@ public class TeamMemberController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // D4: move a team member to another workstation
     @PatchMapping("/{teamMemberId}/workstation")
     public ResponseEntity<String> changeWorkstation(@PathVariable UUID teamMemberId,
                                                     @RequestParam int stationNumber) {

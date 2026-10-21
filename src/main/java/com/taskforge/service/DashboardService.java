@@ -33,7 +33,6 @@ public class DashboardService {
         this.workLogRepository = workLogRepository;
     }
 
-    // Bonus: one JSON object built from a LinkedHashMap to keep the order
     public Map<String, Long> getSummary() {
         Map<String, Long> summary = new LinkedHashMap<>();
         summary.put("projects", projectRepository.count());

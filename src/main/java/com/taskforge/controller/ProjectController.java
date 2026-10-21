@@ -43,7 +43,6 @@ public class ProjectController {
         return projectService.getAll();
     }
 
-    // C4: projects of a team member, listed once even with many tasks
     @GetMapping("/of-team-member/{teamMemberId}")
     public ResponseEntity<?> getProjectsOfTeamMember(@PathVariable UUID teamMemberId) {
         Optional<TeamMember> teamMember = teamMemberService.getById(teamMemberId);
@@ -53,7 +52,6 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getProjectsOfTeamMember(teamMemberId), HttpStatus.OK);
     }
 
-    // B1: projects of one client, case does not matter, sorted A to Z
     @GetMapping("/by-client-name")
     public List<Project> getByClientName(@RequestParam String clientName) {
         return projectService.getByClientName(clientName);

@@ -17,15 +17,18 @@ public class WorkstationService {
         this.workstationRepository = workstationRepository;
     }
 
-    public Workstation save(Workstation workstation) {
-        return workstationRepository.save(workstation);
+    public String save(Workstation workstation) {
+        if (workstationRepository.existsByStationNumber(workstation.getStationNumber())) {
+            return "A workstation with that station number already exists";
+        }
+        workstationRepository.save(workstation);
+        return "Workstation saved successfully";
     }
 
     public List<Workstation> getAll() {
         return workstationRepository.findAll();
     }
 
-    // C2: workstations no team member occupies
     public List<Workstation> getFreeWorkstations() {
         return workstationRepository.findFreeWorkstations();
     }

@@ -25,7 +25,6 @@ public class SkillService {
         return skillRepository.findAll();
     }
 
-    // C3: skills nobody holds
     public List<Skill> getUnusedSkills() {
         return skillRepository.findUnusedSkills();
     }

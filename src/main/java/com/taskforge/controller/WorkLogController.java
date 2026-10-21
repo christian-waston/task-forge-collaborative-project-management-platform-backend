@@ -26,7 +26,6 @@ public class WorkLogController {
         this.workLogService = workLogService;
     }
 
-    // E1: write a work log linked to a DONE task
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestParam UUID taskId, @RequestBody WorkLog workLog) {
         String message = workLogService.save(taskId, workLog);
@@ -38,7 +37,6 @@ public class WorkLogController {
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    // E2: work log history of a project, newest loggedDate first
     @GetMapping("/project/{projectCode}")
     public List<WorkLog> getProjectHistory(@PathVariable String projectCode) {
         return workLogService.getProjectHistory(projectCode);
@@ -49,7 +47,6 @@ public class WorkLogController {
         return workLogService.getAll();
     }
 
-    // E3: delete a work log
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         String message = workLogService.delete(id);
