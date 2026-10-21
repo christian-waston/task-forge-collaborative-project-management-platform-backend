@@ -38,21 +38,14 @@ public class TaskService {
 
     // D1: safe saving. The controller maps the returned message to its HTTP status.
     public String save(Task task) {
-        TaskStatus status = task.getStatus() != null ? task.getStatus() : TaskStatus.OPEN;
-        // Past dates are only invalid for OPEN and IN_PROGRESS tasks
-        if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now())
-                && status != TaskStatus.DONE && status != TaskStatus.DROPPED) {
+        if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now())) {
             return "Task date cannot be in the past";
         }
-        // Duplicate date check only applies when the new task itself is not DROPPED
-        if (status != TaskStatus.DROPPED
-                && task.getTeamMember() != null && task.getDueDate() != null
+        if (task.getTeamMember() != null && task.getDueDate() != null
                 && taskRepository.existsByTeamMemberIdAndDueDateAndStatusNot(
                         task.getTeamMember().getId(), task.getDueDate(), TaskStatus.DROPPED)) {
             return "Team member already has a task due on that date";
         }
-        // The project and the team member arrive as detached references with only their id,
-        // so load the managed versions before saving the task.
         if (task.getProject() != null && task.getProject().getId() != null) {
             Optional<Project> project = projectRepository.findById(task.getProject().getId());
             project.ifPresent(task::setProject);
@@ -61,7 +54,8 @@ public class TaskService {
             Optional<TeamMember> teamMember = teamMemberRepository.findById(task.getTeamMember().getId());
             teamMember.ifPresent(task::setTeamMember);
         }
-        task.setStatus(status);
+        // D1: a new task always starts as OPEN, whatever the JSON body contains.
+        task.setStatus(TaskStatus.OPEN);
         taskRepository.save(task);
         return "Task saved successfully";
     }
