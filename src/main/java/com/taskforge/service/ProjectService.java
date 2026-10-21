@@ -30,6 +30,11 @@ public class ProjectService {
         return projectRepository.findByClientNameIgnoreCaseOrderByProjectNameAsc(clientName);
     }
 
+    // C4: projects that have at least one task of the given team member
+    public List<Project> getProjectsOfTeamMember(UUID teamMemberId) {
+        return projectRepository.findProjectsOfTeamMember(teamMemberId);
+    }
+
     public Optional<Project> getById(UUID id) {
         return projectRepository.findById(id);
     }

@@ -1,7 +1,9 @@
 package com.taskforge.controller;
 
 import com.taskforge.entity.Project;
+import com.taskforge.entity.TeamMember;
 import com.taskforge.service.ProjectService;
+import com.taskforge.service.TeamMemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +25,11 @@ import java.util.UUID;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final TeamMemberService teamMemberService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, TeamMemberService teamMemberService) {
         this.projectService = projectService;
+        this.teamMemberService = teamMemberService;
     }
 
     @PostMapping("/save")
@@ -37,6 +41,16 @@ public class ProjectController {
     @GetMapping("/all")
     public List<Project> getAll() {
         return projectService.getAll();
+    }
+
+    // C4: projects of a team member, listed once even with many tasks
+    @GetMapping("/of-team-member/{teamMemberId}")
+    public ResponseEntity<?> getProjectsOfTeamMember(@PathVariable UUID teamMemberId) {
+        Optional<TeamMember> teamMember = teamMemberService.getById(teamMemberId);
+        if (teamMember.isEmpty()) {
+            return new ResponseEntity<>("The team member with that id does not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(projectService.getProjectsOfTeamMember(teamMemberId), HttpStatus.OK);
     }
 
     // B1: projects of one client, case does not matter, sorted A to Z

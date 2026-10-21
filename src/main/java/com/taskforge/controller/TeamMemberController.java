@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class TeamMemberController {
     @GetMapping("/all")
     public List<TeamMember> getAll() {
         return teamMemberService.getAll();
+    }
+
+    // C1: team members by skill name, case does not matter, join on skills
+    @GetMapping("/by-skill")
+    public List<TeamMember> getBySkill(@RequestParam String name) {
+        return teamMemberService.getBySkillName(name);
     }
 
     @GetMapping("/{id}")

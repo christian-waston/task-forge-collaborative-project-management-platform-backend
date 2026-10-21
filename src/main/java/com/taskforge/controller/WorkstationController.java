@@ -38,6 +38,12 @@ public class WorkstationController {
         return workstationService.getAll();
     }
 
+    // C2: workstations no team member occupies, sorted by stationNumber
+    @GetMapping("/free")
+    public List<Workstation> getFree() {
+        return workstationService.getFreeWorkstations();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<Workstation> workstation = workstationService.getById(id);

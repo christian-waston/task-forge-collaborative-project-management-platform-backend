@@ -38,6 +38,12 @@ public class SkillController {
         return skillService.getAll();
     }
 
+    // C3: skills that no team member holds
+    @GetMapping("/unused")
+    public List<Skill> getUnused() {
+        return skillService.getUnusedSkills();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<Skill> skill = skillService.getById(id);

@@ -25,6 +25,11 @@ public class WorkstationService {
         return workstationRepository.findAll();
     }
 
+    // C2: workstations no team member occupies
+    public List<Workstation> getFreeWorkstations() {
+        return workstationRepository.findFreeWorkstations();
+    }
+
     public Optional<Workstation> getById(UUID id) {
         return workstationRepository.findById(id);
     }

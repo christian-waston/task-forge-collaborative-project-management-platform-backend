@@ -50,6 +50,11 @@ public class TeamMemberService {
         return teamMemberRepository.findAll();
     }
 
+    // C1: team members holding a skill, matched without regard to letter case
+    public List<TeamMember> getBySkillName(String name) {
+        return teamMemberRepository.findBySkillName(name);
+    }
+
     public Optional<TeamMember> getById(UUID id) {
         return teamMemberRepository.findById(id);
     }
