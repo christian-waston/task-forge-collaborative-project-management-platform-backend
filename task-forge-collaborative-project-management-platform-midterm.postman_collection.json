@@ -1,0 +1,290 @@
+{
+  "info": {
+    "name": "TaskForge Collaborative Project Management Platform - Midterm",
+    "description": "Abumukiza Leon Christian - 26478 - INSY 8322 Web Technology and Internet. One request per requirement, named by its ID. Set the baseUrl variable of the collection, and replace task/team member/skill/work log UUIDs with the ones returned by your save endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "projectId", "value": "replace-with-project-uuid" },
+    { "key": "teamMemberId", "value": "replace-with-team-member-uuid" },
+    { "key": "taskId", "value": "replace-with-task-uuid" },
+    { "key": "workLogId", "value": "replace-with-work-log-uuid" },
+    { "key": "skillId", "value": "replace-with-skill-uuid" }
+  ],
+  "item": [
+    {
+      "name": "Part A",
+      "item": [
+        {
+          "name": "A2",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "all"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part B",
+      "item": [
+        {
+          "name": "B1",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/by-client-name?clientName=mtn rwanda",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "by-client-name"],
+              "query": [{ "key": "clientName", "value": "mtn rwanda" }]
+            }
+          }
+        },
+        {
+          "name": "B2",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/by-status?status=OPEN",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "by-status"],
+              "query": [{ "key": "status", "value": "OPEN" }]
+            }
+          }
+        },
+        {
+          "name": "B3",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/between?start=2026-10-01&end=2026-10-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "between"],
+              "query": [
+                { "key": "start", "value": "2026-10-01" },
+                { "key": "end", "value": "2026-10-31" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part C",
+      "item": [
+        {
+          "name": "C1",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/team-members/by-skill?name=backend",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "team-members", "by-skill"],
+              "query": [{ "key": "name", "value": "backend" }]
+            }
+          }
+        },
+        {
+          "name": "C2",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/workstations/free",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "workstations", "free"]
+            }
+          }
+        },
+        {
+          "name": "C3",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/skills/unused",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills", "unused"]
+            }
+          }
+        },
+        {
+          "name": "C4",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/of-team-member/{{teamMemberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "of-team-member", "{{teamMemberId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part D",
+      "item": [
+        {
+          "name": "D1",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dueDate\": \"2026-11-20\",\n  \"title\": \"Implement the work log report\",\n  \"priority\": 2,\n  \"project\": { \"id\": \"{{projectId}}\" },\n  \"teamMember\": { \"id\": \"{{teamMemberId}}\" }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/save",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "save"]
+            }
+          }
+        },
+        {
+          "name": "D2",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/status?status=IN_PROGRESS",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "status"],
+              "query": [{ "key": "status", "value": "IN_PROGRESS" }]
+            }
+          }
+        },
+        {
+          "name": "D3",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/team-members/{{teamMemberId}}/skills/{{skillId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "team-members", "{{teamMemberId}}", "skills", "{{skillId}}"]
+            }
+          }
+        },
+        {
+          "name": "D4",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/team-members/{{teamMemberId}}/workstation?stationNumber=4",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "team-members", "{{teamMemberId}}", "workstation"],
+              "query": [{ "key": "stationNumber", "value": "4" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part E",
+      "item": [
+        {
+          "name": "E1",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activity\": \"Code review\",\n  \"comment\": \"Reviewed the login controller\",\n  \"hoursSpent\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-logs/save?taskId={{taskId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-logs", "save"],
+              "query": [{ "key": "taskId", "value": "{{taskId}}" }]
+            }
+          }
+        },
+        {
+          "name": "E2",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/work-logs/project/TF-2026-01",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-logs", "project", "TF-2026-01"]
+            }
+          }
+        },
+        {
+          "name": "E3",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/work-logs/delete/{{workLogId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-logs", "delete", "{{workLogId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part F",
+      "item": [
+        {
+          "name": "F1",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/stats/by-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "stats", "by-status"]
+            }
+          }
+        },
+        {
+          "name": "F2",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/cancel-day?teamMemberId={{teamMemberId}}&date=2026-11-05",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "cancel-day"],
+              "query": [
+                { "key": "teamMemberId", "value": "{{teamMemberId}}" },
+                { "key": "date", "value": "2026-11-05" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bonus",
+      "item": [
+        {
+          "name": "+5 dashboard",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "summary"]
+            }
+          }
+        },
+        {
+          "name": "+5 tasks page",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/page?page=0&size=5&sort=dueDate,desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "page"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "5" },
+                { "key": "sort", "value": "dueDate,desc" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
