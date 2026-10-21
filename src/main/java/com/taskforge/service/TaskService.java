@@ -29,7 +29,16 @@ public class TaskService {
         this.teamMemberRepository = teamMemberRepository;
     }
 
-    public Task save(Task task) {
+    // D1: safe saving. The controller maps the returned message to its HTTP status.
+    public String save(Task task) {
+        if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now())) {
+            return "Task date cannot be in the past";
+        }
+        if (task.getTeamMember() != null && task.getDueDate() != null
+                && taskRepository.existsByTeamMemberIdAndDueDateAndStatusNot(
+                        task.getTeamMember().getId(), task.getDueDate(), TaskStatus.DROPPED)) {
+            return "Team member already has a task due on that date";
+        }
         // The project and the team member arrive as detached references with only their id,
         // so load the managed versions before saving the task.
         if (task.getProject() != null && task.getProject().getId() != null) {
@@ -40,7 +49,10 @@ public class TaskService {
             Optional<TeamMember> teamMember = teamMemberRepository.findById(task.getTeamMember().getId());
             teamMember.ifPresent(task::setTeamMember);
         }
-        return taskRepository.save(task);
+        // A new task always starts as OPEN, whatever the JSON body contains.
+        task.setStatus(TaskStatus.OPEN);
+        taskRepository.save(task);
+        return "Task saved successfully";
     }
 
     public List<Task> getAll() {
@@ -61,12 +73,44 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
+    // D2: the general PUT update no longer changes the status, it is kept as it is.
     public Optional<Task> update(UUID id, Task task) {
-        if (!taskRepository.existsById(id)) {
+        Optional<Task> existing = taskRepository.findById(id);
+        if (existing.isEmpty()) {
             return Optional.empty();
         }
         task.setId(id);
-        return Optional.of(save(task));
+        // keep the current status: only PATCH /status can change it
+        task.setStatus(existing.get().getStatus());
+        // The project and the team member arrive as detached references with only their id,
+        // so load the managed versions before saving the task.
+        if (task.getProject() != null && task.getProject().getId() != null) {
+            Optional<Project> project = projectRepository.findById(task.getProject().getId());
+            project.ifPresent(task::setProject);
+        }
+        if (task.getTeamMember() != null && task.getTeamMember().getId() != null) {
+            Optional<TeamMember> teamMember = teamMemberRepository.findById(task.getTeamMember().getId());
+            teamMember.ifPresent(task::setTeamMember);
+        }
+        return Optional.of(taskRepository.save(task));
+    }
+
+    // D2: status flow. DONE and DROPPED are final, only the allowed moves pass.
+    public String updateStatus(UUID id, TaskStatus newStatus) {
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isEmpty()) {
+            return "The task with that id does not exist";
+        }
+        TaskStatus current = task.get().getStatus();
+        boolean allowed =
+                (current == TaskStatus.OPEN && (newStatus == TaskStatus.IN_PROGRESS || newStatus == TaskStatus.DROPPED))
+                        || (current == TaskStatus.IN_PROGRESS && (newStatus == TaskStatus.DONE || newStatus == TaskStatus.DROPPED));
+        if (!allowed) {
+            return "Cannot change status from " + current + " to " + newStatus;
+        }
+        task.get().setStatus(newStatus);
+        taskRepository.save(task.get());
+        return "Task status updated successfully";
     }
 
     public boolean deleteById(UUID id) {

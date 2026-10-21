@@ -55,6 +55,44 @@ public class TeamMemberService {
         return teamMemberRepository.findBySkillName(name);
     }
 
+    // D3: add one skill to a team member, keeping the ones already there
+    public String addSkill(UUID teamMemberId, UUID skillId) {
+        Optional<TeamMember> teamMember = teamMemberRepository.findById(teamMemberId);
+        if (teamMember.isEmpty()) {
+            return "The team member with that id does not exist";
+        }
+        Optional<Skill> skill = skillRepository.findById(skillId);
+        if (skill.isEmpty()) {
+            return "That skill does not exist";
+        }
+        boolean alreadyHas = teamMember.get().getSkills().stream()
+                .anyMatch(s -> s.getId().equals(skillId));
+        if (alreadyHas) {
+            return "The team member already has that skill";
+        }
+        teamMember.get().getSkills().add(skill.get());
+        teamMemberRepository.save(teamMember.get());
+        return "Skill added to the team member";
+    }
+
+    // D4: move a team member to another workstation, the old one becomes free
+    public String changeWorkstation(UUID teamMemberId, int stationNumber) {
+        Optional<TeamMember> teamMember = teamMemberRepository.findById(teamMemberId);
+        if (teamMember.isEmpty()) {
+            return "The team member with that id does not exist";
+        }
+        Optional<Workstation> workstation = workstationRepository.findByStationNumber(stationNumber);
+        if (workstation.isEmpty()) {
+            return "The workstation with that stationNumber does not exist";
+        }
+        if (teamMemberRepository.existsByWorkstationAndIdNot(workstation.get(), teamMemberId)) {
+            return "That workstation is taken by another team member";
+        }
+        teamMember.get().setWorkstation(workstation.get());
+        teamMemberRepository.save(teamMember.get());
+        return "Workstation changed successfully";
+    }
+
     public Optional<TeamMember> getById(UUID id) {
         return teamMemberRepository.findById(id);
     }

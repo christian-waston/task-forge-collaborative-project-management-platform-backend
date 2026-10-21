@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,10 +31,17 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    // D1: safe saving, the service validates the rules and the controller
+    // maps the returned message to its HTTP status.
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Task task) {
-        taskService.save(task);
-        return new ResponseEntity<>("Task saved successfully", HttpStatus.CREATED);
+        String message = taskService.save(task);
+        if (message.equals("Task date cannot be in the past")) {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        } else if (message.equals("Team member already has a task due on that date")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -78,5 +86,17 @@ public class TaskController {
             return new ResponseEntity<>("Task deleted successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("The task with that id does not exist", HttpStatus.NOT_FOUND);
+    }
+
+    // D2: status flow, only the allowed moves pass, DONE and DROPPED are final
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateStatus(@PathVariable UUID id, @RequestParam TaskStatus status) {
+        String message = taskService.updateStatus(id, status);
+        if (message.equals("The task with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.startsWith("Cannot change status from")) {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
