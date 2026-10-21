@@ -9,6 +9,7 @@ import com.taskforge.repository.TaskRepository;
 import com.taskforge.repository.TeamMemberRepository;
 import com.taskforge.repository.WorkLogRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -71,6 +72,18 @@ public class TaskService {
     // B3
     public List<Task> getByDueDateBetween(LocalDate start, LocalDate end) {
         return taskRepository.findByDueDateBetweenOrderByDueDateAsc(start, end);
+    }
+
+    // F1: tasks per status, one row per status with its count
+    public List<Object[]> getStatsByStatus() {
+        return taskRepository.countTasksPerStatus();
+    }
+
+    // F2: cancel every task of that team member on that date, except DONE ones
+    @Transactional
+    public String cancelDay(UUID teamMemberId, LocalDate date) {
+        int count = taskRepository.cancelTasksOfTeamMemberOnDate(teamMemberId, date);
+        return count + " tasks cancelled";
     }
 
     public Optional<Task> getById(UUID id) {

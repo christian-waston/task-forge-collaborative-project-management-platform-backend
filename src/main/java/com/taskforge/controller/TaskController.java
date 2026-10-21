@@ -62,6 +62,18 @@ public class TaskController {
         return taskService.getByDueDateBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 
+    // F1: one row per status with its count, e.g. [["OPEN",4],["DONE",3]]
+    @GetMapping("/stats/by-status")
+    public List<Object[]> getStatsByStatus() {
+        return taskService.getStatsByStatus();
+    }
+
+    // F2: cancel-day, one single JPQL UPDATE, no Java loop
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<String> cancelDay(@RequestParam UUID teamMemberId, @RequestParam String date) {
+        return new ResponseEntity<>(taskService.cancelDay(teamMemberId, LocalDate.parse(date)), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<Task> task = taskService.getById(id);
