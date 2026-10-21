@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class ProjectController {
     @GetMapping("/all")
     public List<Project> getAll() {
         return projectService.getAll();
+    }
+
+    // B1: projects of one client, case does not matter, sorted A to Z
+    @GetMapping("/by-client-name")
+    public List<Project> getByClientName(@RequestParam String clientName) {
+        return projectService.getByClientName(clientName);
     }
 
     @GetMapping("/{id}")

@@ -2,12 +2,14 @@ package com.taskforge.service;
 
 import com.taskforge.entity.Project;
 import com.taskforge.entity.Task;
+import com.taskforge.entity.TaskStatus;
 import com.taskforge.entity.TeamMember;
 import com.taskforge.repository.ProjectRepository;
 import com.taskforge.repository.TaskRepository;
 import com.taskforge.repository.TeamMemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,6 +45,16 @@ public class TaskService {
 
     public List<Task> getAll() {
         return taskRepository.findAll();
+    }
+
+    // B2
+    public List<Task> getByStatus(TaskStatus status) {
+        return taskRepository.findByStatusOrderByDueDateAsc(status);
+    }
+
+    // B3
+    public List<Task> getByDueDateBetween(LocalDate start, LocalDate end) {
+        return taskRepository.findByDueDateBetweenOrderByDueDateAsc(start, end);
     }
 
     public Optional<Task> getById(UUID id) {

@@ -1,6 +1,7 @@
 package com.taskforge.controller;
 
 import com.taskforge.entity.Task;
+import com.taskforge.entity.TaskStatus;
 import com.taskforge.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,6 +39,19 @@ public class TaskController {
     @GetMapping("/all")
     public List<Task> getAll() {
         return taskService.getAll();
+    }
+
+    // B2: tasks by status, earliest dueDate first
+    @GetMapping("/by-status")
+    public List<Task> getByStatus(@RequestParam TaskStatus status) {
+        return taskService.getByStatus(status);
+    }
+
+    // B3: tasks in an inclusive date range, the Strings are parsed into
+    // LocalDate here in the controller
+    @GetMapping("/between")
+    public List<Task> getByDueDateBetween(@RequestParam String start, @RequestParam String end) {
+        return taskService.getByDueDateBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 
     @GetMapping("/{id}")

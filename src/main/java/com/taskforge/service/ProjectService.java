@@ -25,6 +25,11 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    // B1
+    public List<Project> getByClientName(String clientName) {
+        return projectRepository.findByClientNameIgnoreCaseOrderByProjectNameAsc(clientName);
+    }
+
     public Optional<Project> getById(UUID id) {
         return projectRepository.findById(id);
     }
