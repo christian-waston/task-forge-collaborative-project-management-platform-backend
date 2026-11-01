@@ -1,4 +1,4 @@
-# TaskForge Collaborative Project Management Platform — Backend
+# TaskForge Collaborative Project Management Platform
 
 Mid-term project examination — **INSY 8322 WEB TECHNOLOGY AND INTERNET**, AUCA.
 
